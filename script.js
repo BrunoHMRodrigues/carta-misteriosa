@@ -3,21 +3,8 @@ const buttonCreateLetter = document.getElementById('criar-carta');
 function getWords() {
   const getInputElement = document.getElementById('carta-texto');
   const getLetterContent = getInputElement.value;
-  const arrayWords = [];
-  let word = '';
+  const arrayWords = getLetterContent.split(' ');
 
-  for (let index = 0; index < getLetterContent.length; index += 1) {
-    if (getLetterContent[index] === ' ') {
-      arrayWords.push(word);
-      word = '';
-    } else if (index === (getLetterContent.length - 1)) {
-      word += getLetterContent[index];
-      arrayWords.push(word);
-      word = '';
-    } else {
-      word += getLetterContent[index];
-    }
-  }
   return arrayWords;
 }
 
@@ -29,15 +16,21 @@ function clearP() {
 }
 
 function createLetter() {
-  clearP();
+  const getInputContent = document.getElementById('carta-texto').value;
+  const getElementP = document.getElementById('carta-gerada');
   const arrayWords = getWords();
-
-  for (let index = 0; index < arrayWords.length; index += 1) {
-    const span = document.createElement('span');
-    const getPElement = document.getElementById('carta-gerada');
-    span.innerText = arrayWords[index];
-    span.className = 'span-word';
-    getPElement.appendChild(span);
+  if (getInputContent === '' || arrayWords[0] === '') {
+    getElementP.innerText = 'Por favor, digite o conteúdo da carta.';
+  } else {
+    clearP();
+    getElementP.innerText = '';
+    for (let index = 0; index < arrayWords.length; index += 1) {
+      const span = document.createElement('span');
+      const getPElement = document.getElementById('carta-gerada');
+      span.innerText = arrayWords[index];
+      span.className = 'span-word';
+      getPElement.appendChild(span);
+    }
   }
 }
 buttonCreateLetter.addEventListener('click', createLetter);
